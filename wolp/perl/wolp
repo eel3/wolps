@@ -1,0 +1,66 @@
+#!/usr/bin/env perl
+
+# Copyright (c) 2014 eel3
+# 
+# This software is provided 'as-is', without any express or implied
+# warranty. In no event will the authors be held liable for any damages
+# arising from the use of this software.
+# 
+# Permission is granted to anyone to use this software for any purpose,
+# including commercial applications, and to alter it and redistribute it
+# freely, subject to the following restrictions:
+# 
+#     1. The origin of this software must not be misrepresented; you must not
+#     claim that you wrote the original software. If you use this software
+#     in a product, an acknowledgment in the product documentation would be
+#     appreciated but is not required.
+# 
+#     2. Altered source versions must be plainly marked as such, and must not be
+#     misrepresented as being the original software.
+# 
+#     3. This notice may not be removed or altered from any source
+#     distribution.
+
+=head1 DESCRIPTION
+
+brief   command line tool to make wake on LAN packet.
+author  eel3
+date    2014/06/08
+
+note  perl 5.14.4 cygwin-32bit @ Windows 7 Ultimate 64bit SP1
+
+=head1 SYNOPSIS
+
+  wolp [-h|--help] <MAC address>
+
+=cut
+
+use 5.012;
+use strict;
+use warnings;
+
+use Pod::Usage qw/pod2usage/;
+
+sub error {
+	say STDERR @_;
+	exit 1;
+}
+
+sub main {
+	@ARGV == 1 or pod2usage 1;
+	($ARGV[0] eq '-h' || $ARGV[0] eq '--help') and pod2usage 0;
+
+	my $mac = $ARGV[0];
+
+	my $rhex = '([1-9a-f]{2})';
+	my $rdelim = '[-:\s]?';
+	my $rsp = '\s*';
+	my $reg = $rsp . ($rhex . $rdelim) x 5 . $rhex . $rsp;
+	$mac =~ /^$reg$/i or error 'invalid MAC address';
+
+	print pack 'H204', 'FF' x 6 . "$1$2$3$4$5$6" x 16;
+
+	exit;
+}
+
+main();

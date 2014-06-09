@@ -1,0 +1,12 @@
+# @file    Makefile_mingw
+# @brief   wolp Makefile for MinGW/TDM-GCC.
+# @author  eel3 @ TRASH BOX
+# @date    2013/12/24
+#
+# @note
+# - TDM-GCC 4.7.1 (64bit) + Cygwin 1.7.20 on Windows 7 Ultimate 64bit SP1
+
+CC         := gcc
+CFLAGS      = -finput-charset=cp932
+
+include ./Makefile
