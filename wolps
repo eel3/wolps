@@ -28,7 +28,7 @@ readonly progname=`basename "$0"`
 
 # usage <status>
 usage() {
-    echo "usage: $progname [-h] <-i IP-address> <-m MAC-address> [-p port]" 1>&2
+    echo "usage: $progname [-h] [-i IP-address] <-m MAC-address> [-p port]" 1>&2
     exit $1
 }
 
