@@ -12,7 +12,7 @@ Set up
 ------
 
 1. Install nc(1) (netcat). wolps need nc(1).
-2. Put both wolps and wolp to a directory registered in PATH.
+2. Put both wolps and wolp in a directory registered in PATH.
 
 wolps need wolp.
 
