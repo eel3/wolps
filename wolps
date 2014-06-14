@@ -1,5 +1,5 @@
 #!/bin/sh
-# @(#) command line tool to send wake on LAN packet. Version 1.1.0.20140614
+# @(#) command line tool to send wake on LAN packet. Version 2.0.0.20140614
 
 # Copyright (c) 2014 eel3
 # 
@@ -28,7 +28,7 @@ readonly progname=`basename "$0"`
 
 # usage <status>
 usage() {
-    echo "usage: $progname [-h] [-i IP-address] <-m MAC-address> [-p port]" 1>&2
+    echo "usage: $progname [-h] [-a IP-address] [-p port] <MAC-address>" 1>&2
     exit $1
 }
 
@@ -59,23 +59,24 @@ topn() {
 }
 
 ipaddr=255.255.255.255
-macaddr=
 port=2304
 
 opt=
-while getopts 'hi:m:p:' opt; do
+while getopts 'a:hp:' opt; do
     case $opt in
+    a)      ipaddr="$OPTARG" ;;
     h)      usage 0 ;;
-    i)      ipaddr="$OPTARG" ;;
-    m)      macaddr=`tomac "$OPTARG"` ;;
     p)      port=`topn "$OPTARG"` ;;
     \?)     usage 1 ;;
     esac
 done
 shift `expr $OPTIND - 1`
 
+[ $# -eq 1 ] || usage 1
+
+readonly macaddr=`tomac "$1"`
+[ -n "$macaddr" ] || error 'invalid MAC address'
 [ -n "$ipaddr" ] || error 'no IP address'
-[ -n "$macaddr" ] || error 'no/invalid MAC address'
 [ -n "$port" ] || error 'no/invalid port number'
 
 wolp "$macaddr" | nc -n -u -w 1 "$ipaddr" "$port"

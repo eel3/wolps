@@ -30,18 +30,18 @@ Example
 ```sh
 # Target MAC address is AA-BB-CC-DD-EE-FF.
 # In this case, wolps will send UDP packet to 255.255.255.255:2304
-wolps -m AA-BB-CC-DD-EE-FF
+wolps AA-BB-CC-DD-EE-FF
 
 # You can specify broadcast address.
 # In this case, wolps will send UDP packet to 192.0.2.255:2304
-wolps -i 192.0.2.255 -m AA-BB-CC-DD-EE-FF
+wolps -a 192.0.2.255 AA-BB-CC-DD-EE-FF
 
 # You can specify UDP port number.
 # In this case, wolps will send UDP packet to 192.0.2.255:7
-wolps -i 192.0.2.255 -m AA-BB-CC-DD-EE-FF -p 7
+wolps -a 192.0.2.255 -p 7 AA-BB-CC-DD-EE-FF
 
 # Allowed MAC address style.
-wolps -i 192.0.2.255 -m AA-BB-CC-DD-EE-FF
-wolps -i 192.0.2.255 -m AA:BB:CC:DD:EE:FF
-wolps -i 192.0.2.255 -m 'AA BB CC DD EE FF'
+wolps AA-BB-CC-DD-EE-FF
+wolps AA:BB:CC:DD:EE:FF
+wolps 'AA BB CC DD EE FF'
 ```
