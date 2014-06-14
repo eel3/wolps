@@ -1,5 +1,5 @@
 #!/bin/sh
-# @(#) command line tool to send wake on LAN packet. Version 1.0.0.20140608
+# @(#) command line tool to send wake on LAN packet. Version 1.1.0.20140614
 
 # Copyright (c) 2014 eel3
 # 
@@ -58,7 +58,7 @@ topn() {
     echo "$1"
 }
 
-ipaddr=
+ipaddr=255.255.255.255
 macaddr=
 port=2304
 
