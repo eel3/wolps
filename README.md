@@ -13,7 +13,7 @@ Target environments
 
 Cygwin, Linux, Mac OS X.
 
-wolps is shell script (sh), and so probably worked in other Unix-like environment.
+wolps is shell script (sh), and so probably work file on other Unix-like environment.
 
 Set up
 ------
