@@ -23,7 +23,7 @@
 
 =head1 DESCRIPTION
 
-brief   command line tool to make wake on LAN packet.
+brief   Command line tool to make wake on LAN packet.
 author  eel3
 date    2014/06/08
 

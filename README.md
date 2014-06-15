@@ -1,7 +1,7 @@
 wolps (Wake On Lan Packet Sender)
 =================================
 
-command line tool to send wake on LAN packet.
+Command line tool to send wake on LAN packet.
 
 License
 -------

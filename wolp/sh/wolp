@@ -1,5 +1,5 @@
 #!/bin/sh
-# @(#) command line tool to make wake on LAN packet. Version 1.0.0.20140608
+# @(#) Command line tool to make wake on LAN packet. Version 1.0.0.20140608
 
 # Copyright (c) 2014 eel3
 #
