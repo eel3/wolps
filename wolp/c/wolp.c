@@ -127,10 +127,6 @@ main(int argc, char *argv[])
 	}
 
 	for (i = 0; i < MAC_SIZE; i++) {
-		if (tmp[i] > 0xFF) {
-			(void) fprintf(stderr, "%s: invalid MAC address\n", progname);
-			return EXIT_FAILURE;
-		}
 		mac[i] = (unsigned char) tmp[i];
 	}
 
