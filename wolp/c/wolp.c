@@ -99,6 +99,7 @@ main(int argc, char *argv[])
 
 	const char *progname;
 	unsigned int tmp[MAC_SIZE];
+	char dummy[2];
 	unsigned char mac[MAC_SIZE];
 	int i;
 
@@ -119,8 +120,8 @@ main(int argc, char *argv[])
 	}
 #endif /* defined(_WIN32) || defined(_WIN64) */
 
-	if (sscanf(argv[1], HEX DELIM HEX DELIM HEX DELIM HEX DELIM HEX DELIM HEX,
-	                    &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5]) != 6)
+	if (sscanf(argv[1], HEX DELIM HEX DELIM HEX DELIM HEX DELIM HEX DELIM HEX "%1s",
+	           &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5], dummy) != 6)
 	{
 		(void) fprintf(stderr, "%s: invalid MAC address\n", progname);
 		return EXIT_FAILURE;
