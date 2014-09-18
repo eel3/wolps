@@ -93,12 +93,13 @@ my_basename(const char * const name)
 int
 main(int argc, char *argv[])
 {
+#define MAC_SIZE 6
 #define HEX   "%2X"
 #define DELIM "%*1[ :-]"
 
 	const char *progname;
-	unsigned int tmp[6];
-	unsigned char mac[6];
+	unsigned int tmp[MAC_SIZE];
+	unsigned char mac[MAC_SIZE];
 	int i;
 
 	progname = my_basename(argv[0]);
@@ -125,7 +126,7 @@ main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	for (i = 0; i < sizeof(mac); i++) {
+	for (i = 0; i < MAC_SIZE; i++) {
 		if (tmp[i] > 0xFF) {
 			(void) fprintf(stderr, "%s: invalid MAC address\n", progname);
 			return EXIT_FAILURE;
@@ -142,4 +143,5 @@ main(int argc, char *argv[])
 
 #undef DELIM
 #undef HEX
+#undef MAC_SIZE
 }
