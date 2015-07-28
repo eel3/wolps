@@ -1,4 +1,4 @@
-# @file    Makefile_mingw64
+# @file    Makefile_mingw64_32bit
 # @brief   wolp Makefile for MinGW-w64/TDM64 (build 32bit binary).
 # @author  eel3 @ TRASH BOX
 # @date    2013/12/24
