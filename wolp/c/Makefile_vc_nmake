@@ -1,0 +1,16 @@
+# @file    Makefile_vc_NMAKE
+# @brief   wolp Makefile for Visual C++ and NMAKE.
+# @author  eel3
+# @date    2014/07/29
+#
+# @note
+# - Visual Studio 2005 Professional SP1 (32bit binary)
+# - Visual Studio 2013 Professional SP1 (64bit binary)
+
+app         = wolp
+CFLAGS      = /GS /W4 /MT
+
+all: $(app).exe
+
+clean:
+	del $(app).exe $(app).obj
