@@ -19,12 +19,8 @@ Set up
 ------
 
 1. Install nc(1) (netcat). wolps need nc(1).
-2. Put both wolps and wolp in a directory registered in PATH.
-
-wolps need wolp.
-
-wolp is a command line tool to make wake on LAN packet.
-wolp is written in Bourne Shell, C, Perl. Choose one among them.
+2. Install wolp. wolps need wolp. See wolp/README.md.
+3. Put wolps in a directory registered in PATH.
 
 Usage
 -----
