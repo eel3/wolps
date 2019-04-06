@@ -1,5 +1,7 @@
 #!/bin/sh
-# @(#) Command line tool to make wake on LAN packet. Version 1.0.0.20140608
+# -*- coding: utf-8-unix -*-
+# vim:fileencoding=utf-8:ff=unix
+# @(#) Command line tool to make wake on LAN packet.
 
 # Copyright (c) 2014 eel3
 #
@@ -22,19 +24,30 @@
 #     3. This notice may not be removed or altered from any source
 #     distribution.
 
+set -u
+umask 0022
+IFS=$(printf ' \t\n_'); IFS=${IFS%_}
 PATH=/bin:/usr/bin
+export IFS LC_ALL=C LANG=C PATH
 
-readonly progname=`basename "$0"`
+readonly progname=${0##*/}
+readonly version=1.1.0.20190405
 
-# usage <status>
+# usage <exit-code>
 usage() {
-    echo "usage: $progname [-h] <MAC address>" 1>&2
+    echo "usage: $progname [-hv] <MAC address>" 1>&2
     exit $1
+}
+
+# version (no parameter)
+version() {
+    echo "$progname $version" 1>&2
+    exit 0
 }
 
 # error <message>
 error() {
-    echo "$progname:" "$@" 1>&2
+    echo "$progname:" ${@+"$@"} 1>&2
     exit 1
 }
 
@@ -52,21 +65,24 @@ tohex() {
     sed 's/^/0x/'
 }
 
+# main routine
+
 opt=
-while getopts 'h' opt; do
+while getopts 'hv' opt; do
     case $opt in
     h)      usage 0 ;;
+    v)      version ;;
     \?)     usage 1 ;;
     esac
 done
-shift `expr $OPTIND - 1`
+shift $(($OPTIND - 1))
 
 [ $# -eq 1 ] || usage 1
 
-hex=`tohex "$1"`
+hex=$(tohex "$1")
 [ -n "$hex" ] || error 'invalid MAC address'
 
-oct=`printf '\\%03o\\%03o\\%03o\\%03o\\%03o\\%03o' $hex`
+oct=$(printf '\\%03o\\%03o\\%03o\\%03o\\%03o\\%03o' $hex)
 
 printf '\377\377\377\377\377\377'
 for i in `seq 1 16`; do printf "$oct"; done
