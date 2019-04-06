@@ -31,7 +31,7 @@ PATH=/bin:/usr/bin
 export IFS LC_ALL=C LANG=C PATH
 
 readonly progname=${0##*/}
-readonly version=1.1.0.20190405
+readonly version=1.1.1.20190407
 
 # usage <exit-code>
 usage() {
@@ -53,7 +53,7 @@ error() {
 
 # tohex <MAC address>
 tohex() {
-    local hex='[1-9a-f]{2}'
+    local hex='[0-9a-f]{2}'
 
     echo "$1" |
     sed 's/^[ \t]*//' |

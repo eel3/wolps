@@ -25,7 +25,7 @@
 
 brief   Command line tool to make wake on LAN packet.
 author  eel3
-date    2014/06/08
+date    2019-04-07
 
 note  perl 5.14.4 cygwin-32bit @ Windows 7 Ultimate 64bit SP1
 
@@ -52,7 +52,7 @@ sub main {
 
 	my $mac = $ARGV[0];
 
-	my $rhex = '([1-9a-f]{2})';
+	my $rhex = '([0-9a-f]{2})';
 	my $rdelim = '[-:\s]?';
 	my $rsp = '\s*';
 	my $reg = $rsp . ($rhex . $rdelim) x 5 . $rhex . $rsp;
