@@ -2,7 +2,7 @@
 /**
  * @brief   Command line tool to make wake on LAN packet.
  * @author  eel3
- * @date    2014/09/18
+ * @date    2019-04-08
  *
  * @par Compilers
  *   - GCC 4.6.3 (Ubuntu 12.04.3 LTS)
@@ -39,6 +39,13 @@
 #	define PATH_SEP '/'
 #endif /* defined(_WIN32) || defined(_WIN64) */
 
+
+/* ---------------------------------------------------------------------- */
+/* File scope variables */
+/* ---------------------------------------------------------------------- */
+
+/** program name. */
+static const char *program_name;
 
 /* ---------------------------------------------------------------------- */
 /* Function-like macro */
@@ -82,6 +89,32 @@ my_basename(const char * const name)
 	return (bn == NULL) ? name : bn+1;
 }
 
+/* ====================================================================== */
+/**
+ * @brief  Show program's help message.
+ *
+ * @param[out] *out  Output stream.
+ */
+/* ====================================================================== */
+static void
+usage(FILE * const out)
+{
+	assert(out != NULL);
+
+	(void) fprintf(out, "usage: %s [-h|--help] [-v|--version] <MAC address>\n", program_name);
+}
+
+/* ====================================================================== */
+/**
+ * @brief  Show program's version number.
+ */
+/* ====================================================================== */
+static void
+version(void)
+{
+	(void) fprintf(stdout, "%s 1.1.0.20190408\n", program_name);
+}
+
 /* ********************************************************************** */
 /**
  * @brief  Main routine.
@@ -97,19 +130,25 @@ main(int argc, char *argv[])
 #define HEX   "%2X"
 #define DELIM "%*1[ :-]"
 
-	const char *progname;
 	unsigned int tmp[MAC_SIZE];
 	char dummy[2];
 	unsigned char mac[MAC_SIZE];
 	int i;
 
-	progname = my_basename(argv[0]);
+	program_name = my_basename(argv[0]);
 
-	if ((argc != 2)
-		|| (STREQ(argv[1], "-h") || STREQ(argv[1], "--help")))
-	{
-		(void) fprintf(stderr, "usage: %s [-h|--help] <MAC address>\n", progname);
+	if (argc != 2) {
+		usage(stderr);
 		return EXIT_FAILURE;
+	}
+
+	if (STREQ(argv[1], "-h") || STREQ(argv[1], "--help")) {
+		usage(stdout);
+		return EXIT_SUCCESS;
+	}
+	if (STREQ(argv[1], "-v") || STREQ(argv[1], "--version")) {
+		version();
+		return EXIT_SUCCESS;
 	}
 
 #if defined(_WIN32) || defined(_WIN64)
@@ -123,7 +162,7 @@ main(int argc, char *argv[])
 	if (sscanf(argv[1], HEX DELIM HEX DELIM HEX DELIM HEX DELIM HEX DELIM HEX "%1s",
 	           &tmp[0], &tmp[1], &tmp[2], &tmp[3], &tmp[4], &tmp[5], dummy) != 6)
 	{
-		(void) fprintf(stderr, "%s: invalid MAC address\n", progname);
+		(void) fprintf(stderr, "%s: invalid MAC address\n", program_name);
 		return EXIT_FAILURE;
 	}
 
