@@ -33,7 +33,7 @@ note  perl 5.14.4 cygwin-32bit @ Windows 7 Ultimate 64bit SP1
 
 =head1 SYNOPSIS
 
-  wolp [-h|--help] <MAC address>
+  wolp [-h|--help] [-v|--version] <MAC address>
 
 =cut
 
@@ -41,16 +41,32 @@ use 5.012;
 use strict;
 use warnings;
 
+use Getopt::Long qw/:config auto_help bundling no_ignore_case posix_default/;
 use Pod::Usage qw/pod2usage/;
 
+# version (no parameter)
+sub version {
+    say STDERR "$0 1.1.0.20190409";
+    exit;
+}
+
+# error <message>
 sub error {
 	say STDERR @_;
 	exit 1;
 }
 
 sub main {
+	GetOptions(
+		\my %opt, qw/
+		help|h
+		version|v
+	/) or pod2usage 1;
+
+	exists $opt{help} and pod2usage 0;
+	exists $opt{version} and version;
+
 	@ARGV == 1 or pod2usage 1;
-	($ARGV[0] eq '-h' || $ARGV[0] eq '--help') and pod2usage 0;
 
 	my $mac = $ARGV[0];
 
