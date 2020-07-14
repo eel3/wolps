@@ -2,7 +2,7 @@
 /**
  * @brief   Command line tool to make wake on LAN packet.
  * @author  eel3
- * @date    2019-04-08
+ * @date    2020-06-21
  *
  * @par Compilers
  *   - GCC 4.6.3 (Ubuntu 12.04.3 LTS)
@@ -112,7 +112,7 @@ usage(FILE * const out)
 static void
 version(void)
 {
-	(void) fprintf(stdout, "%s 1.1.0.20190408\n", program_name);
+	(void) fprintf(stdout, "%s 1.1.1.20200621\n", program_name);
 }
 
 /* ********************************************************************** */
@@ -137,18 +137,44 @@ main(int argc, char *argv[])
 
 	program_name = my_basename(argv[0]);
 
+	for (; (argc > 1) && (argv[1][0] == '-') && (argv[1][1] != '\0'); argc--, argv++) {
+		const char *p = &argv[1][1];
+
+		if (argv[1][1] == '-') {
+			p = &argv[1][2];
+
+			if (*p == '\0') {
+				argc--, argv++;
+				break;
+			} else if (STREQ(p, "help")) {
+				usage(stdout);
+				return EXIT_SUCCESS;
+			} else if (STREQ(p, "version")) {
+				version();
+				return EXIT_SUCCESS;
+			} else {
+				usage(stderr);
+				return EXIT_FAILURE;
+			}
+			continue;
+		}
+
+		do switch (*p) {
+		case 'h':
+			usage(stdout);
+			return EXIT_SUCCESS;
+		case 'v':
+			version();
+			return EXIT_SUCCESS;
+		default:
+			usage(stderr);
+			return EXIT_FAILURE;
+		} while (*++p != '\0');
+	}
+
 	if (argc != 2) {
 		usage(stderr);
 		return EXIT_FAILURE;
-	}
-
-	if (STREQ(argv[1], "-h") || STREQ(argv[1], "--help")) {
-		usage(stdout);
-		return EXIT_SUCCESS;
-	}
-	if (STREQ(argv[1], "-v") || STREQ(argv[1], "--version")) {
-		version();
-		return EXIT_SUCCESS;
 	}
 
 #if defined(_WIN32) || defined(_WIN64)
