@@ -30,13 +30,13 @@ IFS=$(printf ' \t\n_'); IFS=${IFS%_}
 PATH=/bin:/usr/bin
 export IFS LC_ALL=C LANG=C PATH
 
-readonly progname=${0##*/}
-readonly version=2.1.1.20190407
+readonly progname="${0##*/}"
+readonly version=2.1.2.20220710
 
 # usage <exit-code>
 usage() {
     echo "usage: $progname [-hv] [-a IP-address] [-p port] <MAC-address>" 1>&2
-    exit $1
+    exit "$1"
 }
 
 # version (no parameter)
@@ -53,7 +53,7 @@ error() {
 
 # tomac <MAC address>
 tomac() {
-    local hex='[0-9a-f]{2}'
+    hex='[0-9a-f]{2}'
 
     echo "$1" |
     sed 's/^[ \t]*//' |
@@ -67,7 +67,7 @@ tomac() {
 topn() {
     [ "$1" -eq 0 ] 2>/dev/null
     [ $? -lt 2 ] || return 1
-    [ "$1" -ge 1 -a "$1" -le 65535 ] || return 1
+    [ "$1" -ge 1 ] && [ "$1" -le 65535 ] || return 1
     echo "$1"
 }
 
@@ -86,11 +86,12 @@ while getopts 'a:hp:v' opt; do
     \?)     usage 1 ;;
     esac
 done
-shift $(($OPTIND - 1))
+shift $((OPTIND - 1))
 
 [ $# -eq 1 ] || usage 1
 
-readonly macaddr=$(tomac "$1")
+macaddr=$(tomac "$1")
+readonly macaddr
 [ -n "$macaddr" ] || error 'invalid MAC address'
 [ -n "$ipaddr" ] || error 'no IP address'
 [ -n "$port" ] || error 'no/invalid port number'

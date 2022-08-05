@@ -30,13 +30,13 @@ IFS=$(printf ' \t\n_'); IFS=${IFS%_}
 PATH=/bin:/usr/bin
 export IFS LC_ALL=C LANG=C PATH
 
-readonly progname=${0##*/}
-readonly version=1.1.1.20190407
+readonly progname="${0##*/}"
+readonly version=1.1.2.20220710
 
 # usage <exit-code>
 usage() {
     echo "usage: $progname [-hv] <MAC address>" 1>&2
-    exit $1
+    exit "$1"
 }
 
 # version (no parameter)
@@ -52,8 +52,8 @@ error() {
 }
 
 # tohex <MAC address>
-tohex() {
-    local hex='[0-9a-f]{2}'
+tohex() (
+    hex='[0-9a-f]{2}'
 
     echo "$1" |
     sed 's/^[ \t]*//' |
@@ -63,7 +63,7 @@ tohex() {
     grep -E -i "^$hex:$hex:$hex:$hex:$hex:$hex\$" |
     sed 's/:/ 0x/g' |
     sed 's/^/0x/'
-}
+)
 
 # main routine
 
@@ -75,7 +75,7 @@ while getopts 'hv' opt; do
     \?)     usage 1 ;;
     esac
 done
-shift $(($OPTIND - 1))
+shift $((OPTIND - 1))
 
 [ $# -eq 1 ] || usage 1
 
@@ -85,4 +85,4 @@ hex=$(tohex "$1")
 oct=$(printf '\\%03o\\%03o\\%03o\\%03o\\%03o\\%03o' $hex)
 
 printf '\377\377\377\377\377\377'
-for i in `seq 1 16`; do printf "$oct"; done
+for _ in $(seq 1 16); do printf "$oct"; done
